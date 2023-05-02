@@ -1,0 +1,70 @@
+// A4seta2.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action = "A4setA2.jsp" method = "GET">
+         First Name: <input type = "text" name = "first_name">
+         <br />
+         Last Name: <input type = "text" name = "last_name" />
+         <input type = "submit" value = "Submit" />
+       </form>
+</body>
+</html>
+
+
+
+
+
+
+//A4setA2.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import = "java.io.*,java.util.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+//i.
+out.print("Today is:"+java.util.Calendar.getInstance().getTime());
+//ii.
+Enumeration headerNames = request.getHeaderNames();
+out.print("<br>");
+while(headerNames.hasMoreElements()) {
+   String paramName = (String)headerNames.nextElement();
+   out.print("<tr><td>" + paramName + "</td>");
+   String paramValue = request.getHeader(paramName);
+   out.println("<td> " + paramValue + "</td></tr>");
+}
+//iii.
+   // Create cookies for first and last names.
+   Cookie firstName = new Cookie("first_name", request.getParameter("first_name"));
+   Cookie lastName = new Cookie("last_name", request.getParameter("last_name"));
+    // Add both the cookies in the response header.
+   response.addCookie( firstName );
+   response.addCookie( lastName );  
+   Cookie[] cookies = null;  
+   // Get an array of Cookies associated with the this domain
+   Cookie cookie = null;
+   cookies = request.getCookies();  
+   if( cookies != null ) {
+      out.println("<h2> Found Cookies Name and Value</h2>");      
+      for (int i = 0; i < cookies.length; i++) {
+         cookie = cookies[i];
+         out.print("Name : " + cookie.getName()+ ",  ");
+         out.print("Value: " + cookie.getValue()+" <br/>");
+      }
+   } else {
+      out.println("<h2>No cookies founds</h2>");
+   }
+%>
+</body>
+</html>
